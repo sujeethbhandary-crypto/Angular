@@ -20,11 +20,8 @@
 </article>
 
 <section>
-  <button (click)="handlePrev()" [disabled]="housingLocationId === 0">Prev Page</button>
-  <button
-    (click)="handleNext()"
-    [disabled]="housingLocationId === locationService.getAllLocations().length - 1"
-  >
+  <button (click)="handlePrev()" [disabled]="locationIndex <= 0">Prev Page</button>
+  <button (click)="handleNext()" [disabled]="locationIndex >= allLocationsList.length - 1">
     Next Page
   </button>
 </section>

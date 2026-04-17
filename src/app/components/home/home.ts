@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   imports: [HousingLocation],
   templateUrl: './home.html',
   styleUrl: './home.css',
-  providers: [{ provide: LocationService, useClass: LocationService }],
+  // providers: [{ provide: LocationService, useClass: LocationService }],
 })
 export class Home {
   locationService: LocationService = inject(LocationService);
@@ -36,11 +36,15 @@ export class Home {
   handleCheck(event: Event) {
     console.log('Checkbox is clicked', (event.target as HTMLInputElement).checked);
     this.mode.update((prev) => (prev === 'normal' ? 'edit' : 'normal'));
+    if (this.mode() === 'normal') this.selectedIds.set([]);
   }
   onDelete() {
     const confirmed = confirm('Are you sure you want to delete selected items?');
     if (!confirmed) return;
     this.locationService.deleteLocationsByIds(this.selectedIds());
     this.selectedIds.set([]);
+  }
+  onRestore() {
+    this.locationService.restoreAllDeletedLocation();
   }
 }

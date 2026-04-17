@@ -20,6 +20,7 @@ export class MockLocationService {
       availableUnits: 4,
       wifi: true,
       laundry: true,
+      deleted: false,
     },
     {
       id: 1,
@@ -30,6 +31,7 @@ export class MockLocationService {
       availableUnits: 0,
       wifi: false,
       laundry: true,
+      deleted: false,
     },
     {
       id: 2,
@@ -40,6 +42,7 @@ export class MockLocationService {
       availableUnits: 1,
       wifi: false,
       laundry: false,
+      deleted: false,
     },
     {
       id: 3,
@@ -50,6 +53,7 @@ export class MockLocationService {
       availableUnits: 1,
       wifi: true,
       laundry: false,
+      deleted: false,
     },
     {
       id: 4,
@@ -60,6 +64,7 @@ export class MockLocationService {
       availableUnits: 1,
       wifi: true,
       laundry: false,
+      deleted: false,
     },
     {
       id: 5,
@@ -70,6 +75,7 @@ export class MockLocationService {
       availableUnits: 2,
       wifi: true,
       laundry: true,
+      deleted: false,
     },
     {
       id: 6,
@@ -80,6 +86,7 @@ export class MockLocationService {
       availableUnits: 5,
       wifi: true,
       laundry: true,
+      deleted: false,
     },
     {
       id: 7,
@@ -90,6 +97,7 @@ export class MockLocationService {
       availableUnits: 2,
       wifi: true,
       laundry: true,
+      deleted: false,
     },
     {
       id: 8,
@@ -100,6 +108,7 @@ export class MockLocationService {
       availableUnits: 10,
       wifi: false,
       laundry: false,
+      deleted: false,
     },
     {
       id: 9,
@@ -110,6 +119,7 @@ export class MockLocationService {
       availableUnits: 6,
       wifi: true,
       laundry: true,
+      deleted: false,
     },
   ];
   getAllLocations() {

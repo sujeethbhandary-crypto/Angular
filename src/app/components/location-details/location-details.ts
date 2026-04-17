@@ -19,19 +19,32 @@ export class LocationDetails {
   locationService: LocationService = inject(LocationService);
   location: HousingLocationInfo | undefined;
   router = inject(Router);
+  allLocationsList: HousingLocationInfo[];
+  locationIndex: number;
 
   constructor() {
     LocationDetails.count += 1;
     console.log('The instance number: ', LocationDetails.count);
-    this.housingLocationId = Number(this.route.snapshot.params['id']);
-    this.location = this.locationService.getLocationForId(this.housingLocationId);
-    console.log('This id of the location ', this.housingLocationId);
+    // console.log('This id of the location ', this.housingLocationId);
+    this.allLocationsList = this.locationService.getAllLocations();
+    this.locationIndex = this.allLocationsList.findIndex(
+      (item) => item.id === this.housingLocationId,
+    );
   }
   ngOnInit() {
     console.log('All are ready');
     this.route.params.subscribe((params) => {
       this.housingLocationId = Number(params['id']);
       this.location = this.locationService.getLocationForId(this.housingLocationId);
+      this.allLocationsList = this.locationService.getAllLocations();
+      this.locationIndex = this.allLocationsList.findIndex(
+        (item) => item.id === this.housingLocationId,
+      );
+      if (!this.location) {
+        this.router.navigate(['/']);
+        return;
+      }
+      //   this.location = this.locationService.getLocationForId(this.housingLocationId);
     });
   }
 
@@ -42,10 +55,11 @@ export class LocationDetails {
   static count = 0;
 
   handlePrev() {
-    if (this.housingLocationId > 0) this.router.navigate(['details', this.housingLocationId - 1]);
+    if (this.locationIndex > 0)
+      this.router.navigate(['details', this.allLocationsList[this.locationIndex - 1].id]);
   }
   handleNext() {
-    if (this.housingLocationId < this.locationService.getAllLocations().length - 1)
-      this.router.navigate(['details', this.housingLocationId + 1]);
+    if (this.locationIndex < this.allLocationsList.length - 1)
+      this.router.navigate(['details', this.allLocationsList[this.locationIndex + 1].id]);
   }
 }

@@ -14,7 +14,7 @@ input[type='text'] {
   display: inline-block;
   width: 30%;
 }
-button {
+.primary {
   padding: 10px;
   border: solid 1px var(--primary-color);
   background: var(--primary-color);
@@ -61,7 +61,8 @@ button {
   border-radius: 50%;
   z-index: 10;
 }
-.delete-btn {
+.delete-btn,
+.restore-btn {
   padding: 10px 18px;
   border: none;
   border-radius: 6px;
@@ -70,6 +71,7 @@ button {
   font-size: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
+  margin-right: 10px;
 }
 
 .delete-btn:hover:not(:disabled) {
@@ -80,7 +82,19 @@ button {
   transform: scale(0.96);
 }
 
-.delete-btn:disabled {
+.delete-btn:disabled,
+.restore-btn:disabled {
+  background-color: #ccc;
+  color: #777;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.restore-btn {
+  background-color: #4caf50;
+}
+
+.restore-btn:active:not(:disabled) {
   background-color: #ccc;
   color: #777;
   cursor: not-allowed;

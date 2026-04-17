@@ -25,6 +25,7 @@ export class LocationService {
       availableUnits: 4,
       wifi: true,
       laundry: true,
+      deleted: false,
     },
     {
       id: 1,
@@ -35,6 +36,7 @@ export class LocationService {
       availableUnits: 0,
       wifi: false,
       laundry: true,
+      deleted: false,
     },
     {
       id: 2,
@@ -45,6 +47,7 @@ export class LocationService {
       availableUnits: 1,
       wifi: false,
       laundry: false,
+      deleted: false,
     },
     {
       id: 3,
@@ -55,6 +58,7 @@ export class LocationService {
       availableUnits: 1,
       wifi: true,
       laundry: false,
+      deleted: false,
     },
     {
       id: 4,
@@ -65,6 +69,7 @@ export class LocationService {
       availableUnits: 1,
       wifi: true,
       laundry: false,
+      deleted: false,
     },
     {
       id: 5,
@@ -75,6 +80,7 @@ export class LocationService {
       availableUnits: 2,
       wifi: true,
       laundry: true,
+      deleted: false,
     },
     {
       id: 6,
@@ -85,6 +91,7 @@ export class LocationService {
       availableUnits: 5,
       wifi: true,
       laundry: true,
+      deleted: false,
     },
     {
       id: 7,
@@ -95,6 +102,7 @@ export class LocationService {
       availableUnits: 2,
       wifi: true,
       laundry: true,
+      deleted: false,
     },
     {
       id: 8,
@@ -105,6 +113,7 @@ export class LocationService {
       availableUnits: 10,
       wifi: false,
       laundry: false,
+      deleted: false,
     },
     {
       id: 9,
@@ -115,18 +124,29 @@ export class LocationService {
       availableUnits: 6,
       wifi: true,
       laundry: true,
+      deleted: false,
     },
   ];
   getAllLocations() {
-    return this.housingLocations;
+    return this.housingLocations.filter((item) => item.deleted != true);
   }
 
   getLocationForId(id: number): HousingLocationInfo | undefined {
-    return this.housingLocations.find((location) => location.id === id);
+    return this.housingLocations.find(
+      (location) => location.id === id && location.deleted === false,
+    );
   }
   deleteLocationsByIds(ids: number[]) {
-    const filtered = this.housingLocations.filter((l) => !ids.includes(l.id));
-    this.housingLocations.length = 0;
-    this.housingLocations.push(...filtered);
+    this.housingLocations.forEach((item) => {
+      if (ids.includes(item.id)) {
+        item.deleted = true;
+      }
+    });
+  }
+  restoreAllDeletedLocation() {
+    this.housingLocations.forEach((item) => (item.deleted = false));
+  }
+  getDeletedCount() {
+    return this.housingLocations.filter((item) => item.deleted).length;
   }
 }
