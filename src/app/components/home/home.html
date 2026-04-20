@@ -4,31 +4,32 @@
     <button class="primary" type="button">Search</button>
   </form>
   <section>
-    <label>
-      Edit Mode :
-      <input type="checkbox" (click)="handleCheck($event)" />
-    </label>
-    <p>{{ modeString() }}</p>
+    <div class="switch-container">
+      <span>Edit Mode:</span>
+
+      <label class="switch">
+        <input type="checkbox" [checked]="mode() === 'edit'" (change)="toggleMode()" />
+        <span class="slider"></span>
+      </label>
+
+      <span class="mode-text">
+  {{ mode() === 'edit' ? 'Edit Mode' : 'Normal Mode' }}
+</span>
+    </div>
+    
     <button class="delete-btn" [disabled]="selectedIds().length === 0" (click)="onDelete()">
       Delete Selected Items ({{ selectedIds().length }})
     </button>
-    <button
-      class="restore-btn"
-      (click)="onRestore()"
-      [disabled]="locationService.getDeletedCount() === 0"
-    >
+    <button class="restore-btn" (click)="onRestore()" [disabled]="locationService.getDeletedCount() === 0">
       Restore Deleted Items ({{ locationService.getDeletedCount() }})
     </button>
   </section>
   <section class="results">
     @for (location of locationService.getAllLocations(); track $index) {
-      <app-housing-location
-        [location]="location"
-        (onLocationClick)="handleClick($event)"
-        [class.selected]="selectedIds().includes(location.id)"
-      />
+    <app-housing-location [location]="location" (onLocationClick)="handleClick($event)"
+      [class.selected]="selectedIds().includes(location.id)" />
     } @empty {
-      <h1>Empty data</h1>
+    <h1>Empty data</h1>
     }
   </section>
 </section>

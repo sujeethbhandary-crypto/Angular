@@ -11,9 +11,6 @@ import { Router } from '@angular/router';
   styleUrl: './location-details.css',
 })
 export class LocationDetails {
-  //We need to able to read the id of the location form the window location
-  //For that angular can provide us the activated route
-  //object,and from it we can get the dynamic param from the url
   route: ActivatedRoute = inject(ActivatedRoute);
   housingLocationId = -1;
   locationService: LocationService = inject(LocationService);
@@ -25,14 +22,13 @@ export class LocationDetails {
   constructor() {
     LocationDetails.count += 1;
     console.log('The instance number: ', LocationDetails.count);
-    // console.log('This id of the location ', this.housingLocationId);
     this.allLocationsList = this.locationService.getAllLocations();
     this.locationIndex = this.allLocationsList.findIndex(
       (item) => item.id === this.housingLocationId,
     );
   }
   ngOnInit() {
-    console.log('All are ready');
+    console.log('All Settings are done, LocationDetails component is ready');
     this.route.params.subscribe((params) => {
       this.housingLocationId = Number(params['id']);
       this.location = this.locationService.getLocationForId(this.housingLocationId);
@@ -41,8 +37,9 @@ export class LocationDetails {
         (item) => item.id === this.housingLocationId,
       );
       if (!this.location) {
-        this.router.navigate(['/']);
-        return;
+        this.router.navigate(['/404'], {
+  queryParams: { id: this.housingLocationId }
+});
       }
       //   this.location = this.locationService.getLocationForId(this.housingLocationId);
     });
