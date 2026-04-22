@@ -1,11 +1,18 @@
 <main>
-  <a [routerLink]="['/']">
-    <header class="brand-name">
-      <img class="brand-logo" src="public/logo.svg" alt="logo" aria-hidden="true" />
-    </header>
-  </a>
+  @if (!is404Page()) {
+    <a [routerLink]="['/']">
+      <header class="brand-name">
+        <img
+          class="brand-logo"
+          src="public\logo.svg"
+          alt="logo"
+          aria-hidden="true"
+        />
+      </header>
+    </a>
+  }
+
   <section class="content">
-    <router-outlet />
-    <!-- <app-counter /> -->
+    <router-outlet></router-outlet>
   </section>
 </main>

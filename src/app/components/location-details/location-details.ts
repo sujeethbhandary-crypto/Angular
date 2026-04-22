@@ -38,10 +38,9 @@ export class LocationDetails {
       );
       if (!this.location) {
         this.router.navigate(['/404'], {
-  queryParams: { id: this.housingLocationId }
-});
+          queryParams: { id: this.housingLocationId },
+        });
       }
-      //   this.location = this.locationService.getLocationForId(this.housingLocationId);
     });
   }
 

@@ -15,7 +15,7 @@ export class LocationService {
     console.log('Number of instances of Location Service', LocationService.numberOfInstances);
   }
   private readonly baseUrl = inject(BASE_URL);
-  private readonly housingLocations: HousingLocationInfo[] = [
+  private housingLocations: HousingLocationInfo[] = [
     {
       id: 0,
       name: 'Acme Fresh Start Housing',
@@ -137,14 +137,18 @@ export class LocationService {
     );
   }
   deleteLocationsByIds(ids: number[]) {
-    this.housingLocations.forEach((item) => {
+    this.housingLocations = this.housingLocations.map((item) => {
       if (ids.includes(item.id)) {
         item.deleted = true;
       }
+      return item;
     });
   }
   restoreAllDeletedLocation() {
-    this.housingLocations.forEach((item) => (item.deleted = false));
+    this.housingLocations = this.housingLocations.map((item) => {
+      item.deleted = false;
+      return item;
+    });
   }
   getDeletedCount() {
     return this.housingLocations.filter((item) => item.deleted).length;

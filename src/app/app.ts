@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Component, signal, inject } from '@angular/core';
+import { RouterLink, RouterOutlet, Router } from '@angular/router';
 import { Home } from './components/home/home';
 import { Counter } from '@components/counter/counter';
 
@@ -11,12 +11,14 @@ import { Counter } from '@components/counter/counter';
 })
 export class App {
   protected readonly title = signal('propery-app');
-  // protected readonly title='property app';
 
-  //setTimout, event listener is fired, or a promise got resolved,rejected, network call
-
+  private router = inject(Router);
   ngOnInit() {
     console.log('App component was instantiated');
     this.title.set('propery app reloaded');
+  }
+
+  is404Page(): boolean {
+    return this.router.url.startsWith('/404');
   }
 }

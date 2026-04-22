@@ -7,10 +7,11 @@ import { BASE_URL, LocationService } from '../../services/location-service';
   imports: [],
   templateUrl: './housing-location.html',
   styleUrl: './housing-location.css',
-  // providers: [{ provide: BASE_URL, useClass: LocationService }],
+  host: { [`class.selected`]: `this.selected()` },
 })
 export class HousingLocation {
   location = input.required<HousingLocationInfo>();
+  selected = input<boolean>();
   onLocationClick = output<HousingLocationInfo>();
   locationService = inject(LocationService);
   baseURL = inject(BASE_URL);
@@ -22,5 +23,4 @@ export class HousingLocation {
     console.log(`${this.location().name} is clicked`);
     this.onLocationClick.emit(this.location());
   }
-
 }

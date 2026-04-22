@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
   imports: [HousingLocation],
   templateUrl: './home.html',
   styleUrl: './home.css',
-  // providers: [{ provide: LocationService, useClass: LocationService }],
 })
 export class Home {
   locationService: LocationService = inject(LocationService);
@@ -17,25 +16,23 @@ export class Home {
   selectedIds = signal<number[]>([]);
 
   toggleMode() {
-  const newMode = this.mode() === 'normal' ? 'edit' : 'normal';
-  this.mode.set(newMode);
+    const newMode = this.mode() === 'normal' ? 'edit' : 'normal';
+    this.mode.set(newMode);
 
-  if (newMode === 'normal') {
-    this.selectedIds.set([]);
+    if (newMode === 'normal') {
+      this.selectedIds.set([]);
+    }
   }
-}
-handleClick(item: HousingLocationInfo) {
-  if (this.mode() === 'normal') {
-    this.router.navigate(['details', item.id]);
-  } else {
-    this.selectedIds.update(prev =>
-      prev.includes(item.id)
-        ? prev.filter(id => id !== item.id)
-        : [...prev, item.id]
-    );
+  handleClick(item: HousingLocationInfo) {
+    if (this.mode() === 'normal') {
+      this.router.navigate(['details', item.id]);
+    } else {
+      this.selectedIds.update((current) =>
+        current.includes(item.id) ? current.filter((id) => id !== item.id) : [...current, item.id],
+      );
+    }
   }
-}
- 
+
   onDelete() {
     const confirmed = confirm('Are you sure you want to delete selected items?');
     if (!confirmed) return;

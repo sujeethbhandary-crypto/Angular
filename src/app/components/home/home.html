@@ -27,7 +27,7 @@
   <section class="results">
     @for (location of locationService.getAllLocations(); track $index) {
     <app-housing-location [location]="location" (onLocationClick)="handleClick($event)"
-      [class.selected]="selectedIds().includes(location.id)" />
+      [selected]="selectedIds().includes(location.id)" />
     } @empty {
     <h1>Empty data</h1>
     }
