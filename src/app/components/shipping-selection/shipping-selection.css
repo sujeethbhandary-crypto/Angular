@@ -1,0 +1,9 @@
+.container {
+  padding: top 10px;
+  border: 1px solid skyblue;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}

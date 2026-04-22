@@ -23,6 +23,7 @@ export class Home {
       this.selectedIds.set([]);
     }
   }
+
   handleClick(item: HousingLocationInfo) {
     if (this.mode() === 'normal') {
       this.router.navigate(['details', item.id]);

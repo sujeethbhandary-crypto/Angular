@@ -1,0 +1,11 @@
+<div class="container">
+  <select>
+    @for(shippingOption of shippingOptions(); track $index){
+        <option>{{shippingOption}}</option>
+    }
+  </select>
+
+  <input type="text" [value] = "userSelectedShippingOption()" />
+
+  <button (click) = "changeShippingOptions()">Change shipping options</button>
+</div>

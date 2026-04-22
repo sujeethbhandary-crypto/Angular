@@ -1,7 +1,16 @@
-import { Component, signal, computed, ChangeDetectionStrategy, effect } from '@angular/core';
+import {
+  Component,
+  signal,
+  computed,
+  ChangeDetectionStrategy,
+  effect,
+  linkedSignal,
+} from '@angular/core';
+import { ShippingSelection } from '@components/shipping-selection/shipping-selection';
 
 @Component({
   selector: 'app-linked-signal',
+  imports: [ShippingSelection],
   standalone: true,
   templateUrl: './linked-signal.html',
   styleUrl: './linked-signal.css',
@@ -11,14 +20,12 @@ export class LinkedSignal {
   userStatus = signal<'online' | 'away' | 'offline'>('offline');
 
   // independent signal
-  notificationPreference = signal<boolean>(false);
+  notificationPreference = linkedSignal<boolean>(() => this.userStatus() === 'online');
 
-  // ✅ keep it in sync with userStatus
   notificationEffect = effect(() => {
     this.notificationPreference.set(this.userStatus() === 'online');
   });
 
-  // derived signals
   notificationsEnabled = computed(() => this.userStatus() === 'online');
 
   statusMessage = computed(() => {
@@ -67,7 +74,6 @@ export class LinkedSignal {
     }
   }
 
-  // ✅ correct toggle
   toggleNotifications() {
     this.notificationPreference.update((prev) => !prev);
   }

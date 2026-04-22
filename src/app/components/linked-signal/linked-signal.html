@@ -9,7 +9,7 @@
   <div class="status-info">
     <div class="notifications">
       <strong>Notifications:</strong>
-      @if (notificationsEnabled()) {
+      @if (notificationPreference()) {
         Enabled
       } @else {
         Disabled
@@ -48,4 +48,6 @@
       Cycle Status
     </button>
   </div>
+  <app-shipping-selection></app-shipping-selection>
 </div>
+
