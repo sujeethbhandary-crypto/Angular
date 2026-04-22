@@ -5,7 +5,13 @@
     }
   </select>
 
-  <input type="text" [value] = "userSelectedShippingOption()" />
+   <input
+    type="text"
+    [value]="userSelectedShippingOption()"
+    (input)="handleUserInput($event)"
+  />
 
-  <button (click) = "changeShippingOptions()">Change shipping options</button>
+  <button (click)="changeShippingOptions()">
+    Change shipping options
+  </button>
 </div>

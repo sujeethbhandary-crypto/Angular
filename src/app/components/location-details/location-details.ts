@@ -22,7 +22,8 @@ export class LocationDetails {
   constructor() {
     LocationDetails.count += 1;
     console.log('The instance number: ', LocationDetails.count);
-    this.allLocationsList = this.locationService.getAllLocations();
+    const locs = this.locationService.getAllLocations();
+    this.allLocationsList = locs();
     this.locationIndex = this.allLocationsList.findIndex(
       (item) => item.id === this.housingLocationId,
     );
@@ -32,7 +33,8 @@ export class LocationDetails {
     this.route.params.subscribe((params) => {
       this.housingLocationId = Number(params['id']);
       this.location = this.locationService.getLocationForId(this.housingLocationId);
-      this.allLocationsList = this.locationService.getAllLocations();
+      const locs = this.locationService.getAllLocations();
+      this.allLocationsList = locs();
       this.locationIndex = this.allLocationsList.findIndex(
         (item) => item.id === this.housingLocationId,
       );

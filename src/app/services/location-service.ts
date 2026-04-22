@@ -1,21 +1,26 @@
-import { inject, Injectable, InjectionToken } from '@angular/core';
+import { inject, Injectable, InjectionToken, signal, computed } from '@angular/core';
 import { HousingLocationInfo } from '../models/housing-location-info';
 
 export const BASE_URL = new InjectionToken<string>('base-url', {
   providedIn: 'root',
   factory: () => 'https://angular.dev/assets/images/tutorials/common',
 });
+
 @Injectable({
   providedIn: 'root',
 })
 export class LocationService {
   static numberOfInstances = 0;
+
   constructor() {
     LocationService.numberOfInstances += 1;
     console.log('Number of instances of Location Service', LocationService.numberOfInstances);
   }
+
   private readonly baseUrl = inject(BASE_URL);
-  private housingLocations: HousingLocationInfo[] = [
+
+  // ✅ Single source of truth
+  private locations = signal<HousingLocationInfo[]>([
     {
       id: 0,
       name: 'Acme Fresh Start Housing',
@@ -126,31 +131,56 @@ export class LocationService {
       laundry: true,
       deleted: false,
     },
-  ];
+  ]);
+
+  // ✅ Only non-deleted locations (reactive)
+  private visibleLocations = computed(() => this.locations().filter((item) => !item.deleted));
+
+  // ✅ expose to components
   getAllLocations() {
-    return this.housingLocations.filter((item) => item.deleted != true);
+    return this.visibleLocations;
   }
 
   getLocationForId(id: number): HousingLocationInfo | undefined {
-    return this.housingLocations.find(
-      (location) => location.id === id && location.deleted === false,
-    );
+    return this.locations().find((location) => location.id === id && !location.deleted);
   }
+
+  // ✅ delete (immutable + reactive)
   deleteLocationsByIds(ids: number[]) {
-    this.housingLocations = this.housingLocations.map((item) => {
-      if (ids.includes(item.id)) {
-        item.deleted = true;
-      }
-      return item;
-    });
+    const updated = this.locations().map((item) => ({
+      ...item,
+      deleted: ids.includes(item.id) || item.deleted,
+    }));
+
+    this.locations.set(updated);
   }
+
+  // ✅ restore all
   restoreAllDeletedLocation() {
-    this.housingLocations = this.housingLocations.map((item) => {
-      item.deleted = false;
-      return item;
-    });
+    const updated = this.locations().map((item) => ({
+      ...item,
+      deleted: false,
+    }));
+
+    this.locations.set(updated);
   }
+
+  // ✅ count deleted
   getDeletedCount() {
-    return this.housingLocations.filter((item) => item.deleted).length;
+    return this.locations().filter((item) => item.deleted).length;
+  }
+
+  // ✅ add location (safe ID generation)
+  addLocation(location: HousingLocationInfo) {
+    const current = this.locations();
+
+    const maxId = current.length > 0 ? Math.max(...current.map((l) => l.id)) : -1;
+
+    const newLocation = {
+      ...location,
+      id: maxId + 1,
+    };
+
+    this.locations.set([...current, newLocation]);
   }
 }

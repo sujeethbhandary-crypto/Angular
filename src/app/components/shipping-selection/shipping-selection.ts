@@ -1,10 +1,5 @@
 import { Component, linkedSignal, signal } from '@angular/core';
 
-type ShippingMethod = {
-  id: number;
-  name: string;
-};
-
 @Component({
   selector: 'app-shipping-selection',
   standalone: true,
@@ -14,7 +9,18 @@ type ShippingMethod = {
 export class ShippingSelection {
   shippingOptions = signal<string[]>(['Ground', 'Air', 'Sea']);
 
-  userSelectedShippingOption = linkedSignal(() => this.shippingOptions()[0]);
+  // userSelectedShippingOption = linkedSignal(() => this.shippingOptions()[0]);
+
+  userSelectedShippingOption = linkedSignal<string[], string>({
+    source: this.shippingOptions,
+    computation: (newDependencyValue, myPreviousValue): string => {
+      if (newDependencyValue.includes(myPreviousValue?.value as string)) {
+        return myPreviousValue?.value ?? '';
+      } else {
+        return newDependencyValue[0];
+      }
+    },
+  });
 
   changeShippingOptions() {
     this.shippingOptions.set(['Email', 'Sea', 'Postal Service']);

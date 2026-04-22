@@ -3,6 +3,7 @@
     <input type="text" placeholder="Filter by city" />
     <button class="primary" type="button">Search</button>
   </form>
+
   <section>
     <div class="switch-container">
       <span>Edit Mode:</span>
@@ -13,23 +14,39 @@
       </label>
 
       <span class="mode-text">
-  {{ mode() === 'edit' ? 'Edit Mode' : 'Normal Mode' }}
-</span>
+        {{ mode() === 'edit' ? 'Edit Mode' : 'Normal Mode' }}
+      </span>
     </div>
-    
-    <button class="delete-btn" [disabled]="selectedIds().length === 0" (click)="onDelete()">
-      Delete Selected Items ({{ selectedIds().length }})
+
+    <!-- Add -->
+    <button class="add-btn" [disabled]="mode() !== 'edit'" (click)="onAddLocation()">
+      Add Location
     </button>
-    <button class="restore-btn" (click)="onRestore()" [disabled]="locationService.getDeletedCount() === 0">
+
+    <!-- Delete -->
+    <button class="delete-btn" [disabled]="selectedCount() === 0" (click)="onDelete()">
+      Delete Selected Items ({{ selectedCount() }})
+    </button>
+
+    <!-- Restore -->
+    <button
+      class="restore-btn"
+      (click)="onRestore()"
+      [disabled]="locationService.getDeletedCount() === 0"
+    >
       Restore Deleted Items ({{ locationService.getDeletedCount() }})
     </button>
   </section>
+
   <section class="results">
-    @for (location of locationService.getAllLocations(); track $index) {
-    <app-housing-location [location]="location" (onLocationClick)="handleClick($event)"
-      [selected]="selectedIds().includes(location.id)" />
+    @for (vm of locationsToDisplay(); track vm.id) {
+      <app-housing-location
+        [location]="vm"
+        [selected]="vm.selected"
+        (onLocationClick)="handleLocationClick(vm)"
+      />
     } @empty {
-    <h1>Empty data</h1>
+      <h1>Empty data</h1>
     }
   </section>
 </section>

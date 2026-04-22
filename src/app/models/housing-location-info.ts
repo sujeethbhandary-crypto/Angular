@@ -9,3 +9,6 @@ export interface HousingLocationInfo {
   laundry: boolean;
   deleted: boolean;
 }
+export interface HousingLocationViewModel extends HousingLocationInfo {
+  selected: boolean;
+}
