@@ -19,8 +19,8 @@ export class LocationService {
 
   private readonly baseUrl = inject(BASE_URL);
 
-  // ✅ Single source of truth
-  private locations = signal<HousingLocationInfo[]>([
+  // Single source of truth
+  private readonly locations = signal<HousingLocationInfo[]>([
     {
       id: 0,
       name: 'Acme Fresh Start Housing',
@@ -133,19 +133,19 @@ export class LocationService {
     },
   ]);
 
-  // ✅ Only non-deleted locations (reactive)
-  private visibleLocations = computed(() => this.locations().filter((item) => !item.deleted));
+  //  Only non-deleted locations (reactive)
+  // private visibleLocations = computed(() => this.locations().filter((item) => !item.deleted));
 
-  // ✅ expose to components
+  //  expose to components
   getAllLocations() {
-    return this.visibleLocations;
+    return this.locations.asReadonly();
   }
 
   getLocationForId(id: number): HousingLocationInfo | undefined {
     return this.locations().find((location) => location.id === id && !location.deleted);
   }
 
-  // ✅ delete (immutable + reactive)
+  //  delete (immutable + reactive)
   deleteLocationsByIds(ids: number[]) {
     const updated = this.locations().map((item) => ({
       ...item,
@@ -155,7 +155,7 @@ export class LocationService {
     this.locations.set(updated);
   }
 
-  // ✅ restore all
+  //  restore all
   restoreAllDeletedLocation() {
     const updated = this.locations().map((item) => ({
       ...item,
@@ -165,12 +165,12 @@ export class LocationService {
     this.locations.set(updated);
   }
 
-  // ✅ count deleted
+  //  count deleted
   getDeletedCount() {
     return this.locations().filter((item) => item.deleted).length;
   }
 
-  // ✅ add location (safe ID generation)
+  //  add location (safe ID generation)
   addLocation(location: HousingLocationInfo) {
     const current = this.locations();
 

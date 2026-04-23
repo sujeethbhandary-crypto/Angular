@@ -1,15 +1,17 @@
 <main>
   @if (!is404Page()) {
-    <a [routerLink]="['/']">
-      <header class="brand-name">
-        <img
-          class="brand-logo"
-          src="public\logo.svg"
-          alt="logo"
-          aria-hidden="true"
-        />
-      </header>
-    </a>
+    <header class="brand-name">
+      <nav class="nav-bar">
+        <a [routerLink]="['/']">
+          <img class="brand-logo" src="public/logo.svg" alt="logo" />
+        </a>
+
+        <div class="nav-links">
+          <a routerLink="/linked-signal">Signal-Demo</a>
+          <a routerLink="/form">Form</a>
+        </div>
+      </nav>
+    </header>
   }
 
   <section class="content">

@@ -1,6 +1,24 @@
 .brand-name {
-  border-bottom: 2px solid #007acc; /* Adjust color and thickness as needed */
-  padding-bottom: 10px; /* Optional: adds some space below the border */
+  border-bottom: 2px solid #007acc;
+  padding-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 8px;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-between; /* logo left, links right */
+  align-items: center;
+  padding: 10px;
+}
+
+/* group links */
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
 }

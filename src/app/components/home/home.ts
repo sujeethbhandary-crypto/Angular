@@ -28,7 +28,6 @@ export class Home {
         const previousMatch = previousViewModels.find(
           (previousLocation) => previousLocation.id === location.id,
         );
-
         return {
           ...location,
           selected: previousMatch?.selected ?? false,
