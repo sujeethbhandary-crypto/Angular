@@ -1,17 +1,23 @@
 <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
   <label for="first-name">First Name:</label>
+
+  @let firstName = profileForm.controls.firstName;
+
   <input id="first-name" type="text" formControlName="firstName" />
 
   <p>Entered First Name = {{ profileForm.get('firstName')?.value }}</p>
 
+  @if (firstName.touched && firstName.invalid) {
+    <p style="color: red">No of char should be gretaer thean 6</p>
+  }
   <label for="middlename">middlename:</label>
   <input id="middlename" type="text" formControlName="middlename" /> <br />
   <br />
 
   <p>Entered middle Name={{ profileForm.get('middlename')?.value }}</p>
 
-  <label for="last-name">Last Name:</label>
-  <input id="last-name" type="text" formControlName="lastName" />
+  <label for="email">email:</label>
+  <input id="email" type="text" formControlName="email" />
 
   <br />
 

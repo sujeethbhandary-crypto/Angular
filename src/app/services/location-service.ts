@@ -134,25 +134,28 @@ export class LocationService {
   ]);
 
   //  Only non-deleted locations (reactive)
-  // private visibleLocations = computed(() => this.locations().filter((item) => !item.deleted));
+  private visibleLocations = computed(() => this.locations().filter((item) => !item.deleted));
 
   //  expose to components
   getAllLocations() {
-    return this.locations.asReadonly();
+    return this.visibleLocations;
   }
 
   getLocationForId(id: number): HousingLocationInfo | undefined {
     return this.locations().find((location) => location.id === id && !location.deleted);
   }
 
-  //  delete (immutable + reactive)
+  //  delete
   deleteLocationsByIds(ids: number[]) {
-    const updated = this.locations().map((item) => ({
-      ...item,
-      deleted: ids.includes(item.id) || item.deleted,
-    }));
+    const normalizedIds = ids.map(Number);
 
-    this.locations.set(updated);
+    this.locations.update((list) =>
+      list.map((item) => ({
+        ...item,
+        deleted: normalizedIds.includes(item.id),
+      })),
+    );
+    console.log('UPDATED STATE:', this.locations());
   }
 
   //  restore all
@@ -170,7 +173,7 @@ export class LocationService {
     return this.locations().filter((item) => item.deleted).length;
   }
 
-  //  add location (safe ID generation)
+  //  add location
   addLocation(location: HousingLocationInfo) {
     const current = this.locations();
 
@@ -182,5 +185,11 @@ export class LocationService {
     };
 
     this.locations.set([...current, newLocation]);
+  }
+
+  updateLocation(updated: HousingLocationInfo) {
+    this.locations.update((list) =>
+      list.map((item) => (item.id === updated.id ? { ...item, ...updated } : item)),
+    );
   }
 }

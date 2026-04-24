@@ -2,16 +2,19 @@ import { Component, inject, signal, computed, linkedSignal } from '@angular/core
 import { HousingLocation } from '@components/housing-location/housing-location';
 import { HousingLocationInfo } from '../../models/housing-location-info';
 import { LocationService } from '../../services/location-service';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet, ActivatedRoute } from '@angular/router';
 import { HousingLocationViewModel } from '../../models/housing-location-info';
+import { Forms } from '@components/forms/forms';
 
 @Component({
   selector: 'app-home',
-  imports: [HousingLocation],
+  imports: [HousingLocation, Forms, RouterOutlet],
   templateUrl: './home.html',
+
   styleUrl: './home.css',
 })
 export class Home {
+  activatedRouter = inject(ActivatedRoute);
   locationService = inject(LocationService);
   router = inject(Router);
 
@@ -73,32 +76,41 @@ export class Home {
       .filter((vm) => vm.selected)
       .map((vm) => vm.id);
 
+    console.log('SELECTED IDS:', ids);
+
     if (ids.length === 0) return;
 
     const confirmed = confirm('Are you sure you want to delete selected items?');
     if (!confirmed) return;
 
     this.locationService.deleteLocationsByIds(ids);
-  }
 
+    this.locationsToDisplay.set(
+      this.locationsToDisplay().map((vm) => ({
+        ...vm,
+        selected: false,
+      })),
+    );
+  }
   onRestore() {
     this.locationService.restoreAllDeletedLocation();
   }
 
   onAddLocation() {
-    const newLocation: HousingLocationInfo = {
-      id: 0,
-      name: 'nn',
-      city: 'Mangalore',
-      state: 'KA',
-      photo: `https://picsum.photos/300/200`,
-      availableUnits: 1,
-      wifi: false,
-      laundry: false,
-      deleted: false,
-    };
+    // const newLocation: HousingLocationInfo = {
+    //   id: 0,
+    //   name: 'nn',
+    //   city: 'Mangalore',
+    //   state: 'KA',
+    //   photo: `https://picsum.photos/300/200`,
+    //   availableUnits: 1,
+    //   wifi: false,
+    //   laundry: false,
+    //   deleted: false,
+    // };
 
-    this.locationService.addLocation(newLocation);
-    console.log(newLocation.id);
+    // this.locationService.addLocation(newLocation);
+    // console.log(newLocation.id);
+    this.router.navigate(['edit', { relativeTo: this.activatedRouter }]);
   }
 }

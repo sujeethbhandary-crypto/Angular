@@ -6,7 +6,7 @@
 
   <section>
     <div class="switch-container">
-      <span>Edit Mode:</span>
+      <!-- <span>Edit Mode:</span> -->
 
       <label class="switch">
         <input type="checkbox" [checked]="mode() === 'edit'" (change)="toggleMode()" />
@@ -44,9 +44,11 @@
         [location]="vm"
         [selected]="vm.selected"
         (onLocationClick)="handleLocationClick(vm)"
+        [mode]="mode()"
       />
     } @empty {
       <h1>Empty data</h1>
     }
   </section>
+  <router-outlet></router-outlet>
 </section>

@@ -1,4 +1,4 @@
-<button class="container"  [class.selected]="selected()" (click)="handleClick($event)">
+<button class="container" [class.selected]="selected()" (click)="handleClick($event)">
   <section class="listing">
     @if (location().wifi) {
       <img src="/public/wifi.png" class="wifi-icon" alt="WiFi available" />
@@ -11,5 +11,8 @@
     />
     <h2 class="listing-heading">{{ location().name }}</h2>
     <p class="listing-location">{{ location().city }}, {{ location().state }}</p>
+    @if (mode() === 'edit') {
+      <button (click)="handleEdit($event)">Edit</button>
+    }
   </section>
 </button>

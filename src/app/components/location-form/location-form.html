@@ -1,0 +1,39 @@
+<div class="overlay" (click)="handleOverlayClick()">
+  <div
+    class="panel"
+    [class.show-panel]="shouldShowPanel()"
+    cdkTrapFocus;
+    cdkTrapFocusAutoCapture;
+    (click)="$event.stopPropagation()"
+  >
+    <button class="close-btn" (click)="closeAndGoHome()">×</button>
+    <h3>Enter the details:</h3>
+    <form class="form-panel" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <label for="id">Id:</label>
+      <input id="id" type="number" formControlName="id" />
+
+      <label for="name">Name:</label>
+      <input id="name" type="text" formControlName="name" />
+
+      <label for="city">City:</label>
+      <input id="city" type="text" formControlName="city" />
+
+      <label for="state">State:</label>
+      <input id="state" type="text" formControlName="state" />
+
+      <label for="photo">Photo:</label>
+      <input id="photo" type="text" formControlName="photo" placeholder="Enter the url" />
+
+      <label for="availableUnits">availableUnits:</label>
+      <input id="availableUnits" type="number" formControlName="availableUnits" />
+
+      <label for="wifi">wifi:</label>
+      <input id="wifi" type="checkbox" formControlName="wifi" />
+
+      <label for="laundry">laundry:</label>
+      <input id="laundry" type="checkbox" formControlName="laundry" />
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</div>

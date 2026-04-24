@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { LocationService } from '../../services/location-service';
 import { HousingLocationInfo } from '../../models/housing-location-info';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-location-details',
-  imports: [],
+  imports: [RouterOutlet],
   templateUrl: './location-details.html',
   styleUrl: './location-details.css',
 })
@@ -46,10 +46,10 @@ export class LocationDetails {
     });
   }
 
-  ngOnDestroy() {
-    LocationDetails.count--;
-    console.log('LocationDetails Destroyed');
-  }
+  // ngOnDestroy() {
+  //   LocationDetails.count--;
+  //   console.log('LocationDetails Destroyed');
+  // }
   static count = 0;
 
   handlePrev() {
@@ -59,5 +59,9 @@ export class LocationDetails {
   handleNext() {
     if (this.locationIndex < this.allLocationsList.length - 1)
       this.router.navigate(['details', this.allLocationsList[this.locationIndex + 1].id]);
+  }
+
+  handleEdit() {
+    this.router.navigate(['edit'], { relativeTo: this.route });
   }
 }
