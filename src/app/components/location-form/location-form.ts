@@ -10,6 +10,7 @@ import { A11yModule } from '@angular/cdk/a11y';
   imports: [ReactiveFormsModule, A11yModule],
   templateUrl: './location-form.html',
   styleUrl: './location-form.css',
+  // host:{`(document:keydown.escape)`:`handleEscape()`}
 })
 export class LocationForm {
   private route = inject(ActivatedRoute);
@@ -35,8 +36,7 @@ export class LocationForm {
     this.showPannel();
     document.body.style.overflow = 'hidden';
 
-    const idParam = this.route.parent?.snapshot.paramMap.get('id');
-    const routeId = idParam ? Number(idParam) : null;
+    const routeId = this.getId();
 
     if (routeId !== null && !isNaN(routeId)) {
       const existingLocation = this.locationService.getLocationForId(routeId);
@@ -53,7 +53,7 @@ export class LocationForm {
 
   @HostListener('document:keydown.escape')
   handleEscape() {
-    this.closeAndGoHome();
+    this.close();
   }
 
   showPannel() {
@@ -72,8 +72,7 @@ export class LocationForm {
     }
     const payload = this.profileForm.getRawValue() as HousingLocationInfo;
 
-    const idParam = this.route.parent?.snapshot.paramMap.get('id');
-    const routeId = idParam ? Number(idParam) : null;
+    const routeId = this.getId();
 
     if (routeId !== null && !isNaN(routeId)) {
       console.log('updating');
@@ -85,13 +84,11 @@ export class LocationForm {
       this.locationService.addLocation(payload);
     }
 
-    this.shouldShowPanel.set(false);
-    this.router.navigate(['../'], { relativeTo: this.route });
+    this.goBack();
   }
 
-  closeAndGoHome(event?: Event) {
-    this.shouldShowPanel.set(false);
-    this.router.navigate(['../'], { relativeTo: this.route });
+  close(event?: Event) {
+    this.goBack();
   }
 
   isFormDirty(): boolean {
@@ -104,6 +101,17 @@ export class LocationForm {
       if (!confirmClose) return;
     }
 
-    this.closeAndGoHome();
+    this.close();
+  }
+
+  getId() {
+    const idParam = this.route.parent?.snapshot.paramMap.get('id');
+    const routeId = idParam ? Number(idParam) : null;
+    return routeId;
+  }
+
+  goBack() {
+    this.shouldShowPanel.set(false);
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }

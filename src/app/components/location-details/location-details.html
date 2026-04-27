@@ -18,11 +18,18 @@
 
   <!-- NAVIGATION -->
   <div class="nav-buttons">
-    <button (click)="handlePrev()" [disabled]="locationIndex <= 0">Prev Page</button>
-    <button (click)="handleEdit()">Edit</button>
-    <button (click)="handleNext()" [disabled]="locationIndex >= allLocationsList.length - 1">
+    <button class="prevNextBtn" (click)="handlePrev()" [disabled]="locationIndex <= 0">
+      Prev Page
+    </button>
+
+    <button id="editBtn" (click)="handleEdit()">Edit</button>
+
+    <button
+      class="prevNextBtn"
+      (click)="handleNext()"
+      [disabled]="locationIndex >= allLocationsList.length - 1"
+    >
       Next Page
     </button>
   </div>
-  <router-outlet></router-outlet>
 </div>

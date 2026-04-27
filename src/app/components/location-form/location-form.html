@@ -2,12 +2,14 @@
   <div
     class="panel"
     [class.show-panel]="shouldShowPanel()"
-    cdkTrapFocus;
-    cdkTrapFocusAutoCapture;
+    cdkTrapFocus
+    cdkTrapFocusAutoCapture
     (click)="$event.stopPropagation()"
   >
-    <button class="close-btn" (click)="closeAndGoHome()">×</button>
-    <h3>Enter the details:</h3>
+    <button class="close-btn" (click)="close()">×</button>
+
+    <h3>Enter the Home details:</h3>
+
     <form class="form-panel" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
       <label for="id">Id:</label>
       <input id="id" type="number" formControlName="id" />
@@ -24,16 +26,24 @@
       <label for="photo">Photo:</label>
       <input id="photo" type="text" formControlName="photo" placeholder="Enter the url" />
 
-      <label for="availableUnits">availableUnits:</label>
+      <label for="availableUnits">Available Units:</label>
       <input id="availableUnits" type="number" formControlName="availableUnits" />
 
-      <label for="wifi">wifi:</label>
-      <input id="wifi" type="checkbox" formControlName="wifi" />
+      <div>
+        <label for="wifi">Wifi:</label>
+        <input id="wifi" type="checkbox" formControlName="wifi" />
+      </div>
 
-      <label for="laundry">laundry:</label>
-      <input id="laundry" type="checkbox" formControlName="laundry" />
+      <div>
+        <label for="laundry">Laundry:</label>
+        <input id="laundry" type="checkbox" formControlName="laundry" />
+      </div>
 
-      <button type="submit">Submit</button>
+      <button type="submit" [disabled]="profileForm.invalid || !profileForm.dirty">Submit</button>
+
+      <!-- Debug info -->
+      <p>Invalid: {{ profileForm.invalid }}</p>
+      <p>Dirty: {{ profileForm.dirty }}</p>
     </form>
   </div>
 </div>

@@ -1,13 +1,8 @@
 /* Overlay */
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
+  inset: 0;
   background-color: rgba(0, 0, 0, 0.7);
-  opacity: 1;
-  transition: opacity 0.3s ease;
 }
 
 /* Panel */
@@ -17,91 +12,66 @@
   top: 0;
   height: 100vh;
   width: 400px;
-  background-color: #fff;
+  background: #fff;
   transform: translateX(100%);
   transition: transform 0.3s ease;
   padding: 20px;
-  box-sizing: border-box;
   overflow-y: auto;
 }
 
-/* Show panel */
 .show-panel {
   transform: translateX(0);
 }
 
-/* Form styling */
+/* Form */
 .form-panel {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-}
-
-/* Labels */
-.form-panel label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #444;
 }
 
 /* Inputs */
 .form-panel input {
   padding: 10px;
+  margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 6px;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-/* Focus effect */
-.form-panel input:focus {
-  border-color: #007acc;
-  box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
-  outline: none;
 }
 
 /* Button */
 .form-panel button {
-  margin-top: 10px;
   padding: 10px;
   border: none;
   border-radius: 6px;
-  background-color: #007acc;
+  background: #007acc;
   color: white;
-  font-size: 14px;
   cursor: pointer;
-  transition:
-    background 0.2s ease,
-    transform 0.1s ease;
 }
 
-/* Hover */
-.form-panel button:hover {
-  background-color: #005fa3;
+/* enabled button */
+.form-panel button:hover:not(:disabled) {
+  background: #005fa3;
 }
 
-/* Click */
-.form-panel button:active {
+/* Click ONLY if enabled */
+.form-panel button:active:not(:disabled) {
   transform: scale(0.98);
 }
 
-/* Optional title */
-.form-panel h2 {
-  margin-bottom: 10px;
+/*  Disabled style */
+.form-panel button:disabled {
+  background: #ccc;
+  color: #777;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
+/* Close button */
 .close-btn {
   position: absolute;
   top: 10px;
   right: 15px;
+  font-size: 22px;
   background: none;
   border: none;
-  font-size: 24px;
   cursor: pointer;
-  color: #333;
-  transition: color 0.2s ease;
-}
-
-.close-btn:hover {
-  color: red;
 }
