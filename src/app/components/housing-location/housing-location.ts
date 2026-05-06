@@ -2,12 +2,12 @@ import { Component, inject, input, output } from '@angular/core';
 import { HousingLocationInfo } from '../../models/housing-location-info';
 import { BASE_URL, LocationService } from '../../services/location-service';
 import { Router } from '@angular/router';
-import { Home } from '@components/home/home';
+import { CardLayout } from '@components/card-layout/card-layout';
 
 @Component({
   selector: 'app-housing-location',
   standalone: true,
-  imports: [],
+  imports: [CardLayout],
   templateUrl: './housing-location.html',
   styleUrl: './housing-location.css',
   host: { [`class.selected`]: `this.selected()` },

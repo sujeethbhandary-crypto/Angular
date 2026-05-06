@@ -1,18 +1,20 @@
-<button class="container" [class.selected]="selected()" (click)="handleClick($event)">
-  <section class="listing">
-    @if (location().wifi) {
-      <img src="/public/wifi.png" class="wifi-icon" alt="WiFi available" />
-    }
-    <img
-      class="listing-photo"
-      [src]="location().photo"
-      alt="Exterior photo of {{ location().name }}"
-      crossorigin
-    />
-    <h2 class="listing-heading">{{ location().name }}</h2>
-    <p class="listing-location">{{ location().city }}, {{ location().state }}</p>
-    @if (mode() === 'edit') {
-      <button (click)="handleEdit($event)">Edit</button>
-    }
-  </section>
-</button>
+<app-card-layout>
+  <button class="container" [class.selected]="selected()" (click)="handleClick($event)">
+    <section class="listing">
+      @if (location().wifi) {
+        <img src="/public/wifi.png" class="wifi-icon" alt="WiFi available" />
+      }
+      <img
+        class="listing-photo"
+        [src]="location().photo"
+        alt="Exterior photo of {{ location().name }}"
+        crossorigin
+      />
+      <h2 class="listing-heading">{{ location().name }}</h2>
+      <p class="listing-location">{{ location().city }}, {{ location().state }}</p>
+      @if (mode() === 'edit') {
+        <button (click)="handleEdit($event)">Edit</button>
+      }
+    </section>
+  </button>
+</app-card-layout>

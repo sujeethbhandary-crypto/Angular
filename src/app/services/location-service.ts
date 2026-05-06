@@ -1,6 +1,8 @@
 import { inject, Injectable, InjectionToken, signal, computed } from '@angular/core';
 import { HousingLocationInfo } from '../models/housing-location-info';
-
+import { toObservable } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 export const BASE_URL = new InjectionToken<string>('base-url', {
   providedIn: 'root',
   factory: () => 'https://angular.dev/assets/images/tutorials/common',
@@ -173,6 +175,16 @@ export class LocationService {
     return this.locations().filter((item) => item.deleted).length;
   }
 
+  searchLocationsApi(query: string): Observable<HousingLocationInfo[]> {
+    const q = query.toLowerCase();
+
+    const results = this.locations().filter(
+      (loc) =>
+        !loc.deleted && (loc.city.toLowerCase().includes(q) || loc.name.toLowerCase().includes(q)),
+    );
+
+    return of(results);
+  }
   //  add location
   addLocation(location: HousingLocationInfo) {
     const current = this.locations();

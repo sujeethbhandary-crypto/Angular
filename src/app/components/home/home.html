@@ -1,6 +1,10 @@
 <section>
   <form>
-    <input type="text" placeholder="Filter by city" />
+    <input
+      type="text"
+      placeholder="Filter by city or name"
+      (input)="onSearch($event.target.value)"
+    />
     <button class="primary" type="button">Search</button>
   </form>
 
@@ -47,7 +51,11 @@
         [mode]="mode()"
       />
     } @empty {
-      <h1>Empty data</h1>
+      @if (isSearching()) {
+        <h2>No Data Found</h2>
+      } @else {
+        <h1>Empty data</h1>
+      }
     }
   </section>
   <router-outlet></router-outlet>
